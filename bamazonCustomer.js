@@ -15,39 +15,46 @@ connection.query('SELECT item_id, product_name, price, stock_quantity, departmen
     console.log("\n\nHere is a list of items available in store today!");
     for (i = 0; i < 10; i++) {
         console.log(
-            "\n-----------------------------------\n" +
+            "-----------------------------------\n" +
             "Product ID: " + results[i].item_id +
             "\nProduct: " + results[i].product_name +
-            "\nPrice: $" + results[i].price);
+            "\nPrice: $" + results[i].price) +
+            "\n-----------------------------------";
     }
 
-questions = function () {
+    questions = function () {
 
-    inquirer.prompt([
-        {
-            type: "input",
-            message: "Which item would you like to buy today (Use the Product ID Number)?",
-            name: "productid"
-        },
-        {
-            type: "input",
-            message: "How many units would you like to buy?",
-            name: "quantity"
-        },
-    ]).then(function (user) {
-        var idNum = user.productid
-        console.log("----------------------------------------");
-        console.log("Item in cart: " + results[idNum-1].product_name);
-        console.log("Quantity desired: " + user.quantity);
-        console.log("----------------------------------------");
-        if (user.quantity > results[idNum-1].stock_quantity) {
-            console.log("I am sorry, but we do not have enough of this item in stock.")
-        } else {
-            console.log("You are buying (" + user.quantity + ") " + results[idNum-1].product_name
-            + ". Your total amount due is: $" + results[idNum-1].price*user.quantity);
-        }
-    });
-}
-questions();
+        inquirer.prompt([
+            {
+                type: "input",
+                message: "Which item would you like to buy today (Use the Product ID Number)?",
+                name: "productid"
+            },
+            {
+                type: "input",
+                message: "How many units would you like to buy?",
+                name: "quantity"
+            },
+        ]).then(function (user) {
+            var idNum = user.productid
+            console.log("----------------------------------------");
+            console.log("Item in cart: " + results[idNum - 1].product_name);
+            console.log("Quantity desired: " + user.quantity);
+            console.log("----------------------------------------");
+            if (user.quantity > results[idNum - 1].stock_quantity) {
+                console.log("I am sorry, but we do not have enough of this item in stock.")
+            } else {
+                console.log("You are buying (" + user.quantity + ") " + results[idNum - 1].product_name
+                    + ". \nYour total amount due is: $" + results[idNum - 1].price * user.quantity +
+                    "\n------------------------------");
+                var newQuantity = results[idNum - 1].stock_quantity - user.quantity;
+                substractFromDatabase(newQuantity);
+                // UPDATE programming_languages
+                // SET experience = 4
+                // WHERE id = 1;
+            }
+        });
+    }
+    questions();
 });
 connection.end();
