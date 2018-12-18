@@ -10,7 +10,8 @@ var connection = mysql.createConnection({
 
 connection.connect();
 
-connection.query('SELECT item_id, product_name, price, stock_quantity, department_name FROM products', function (error, results, fields) {
+//starting connect and grabbing everything from products table in bamazon database
+connection.query('SELECT * FROM products', function (error, results, fields) {
     if (error) throw error;
     console.log("\n\nHere is a list of items available in store today!");
     for (i = 0; i < 10; i++) {
