@@ -43,3 +43,5 @@ VALUES ("Muscle Milk Pro Series Protein Shake", "Sports Nutrition", 23.67, 40);
 -- 10 --
 INSERT INTO products (product_name, department_name, price, stock_quantity)
 VALUES ("Tide PODS 3 in 1 HE Turbo Laundry Detergent Pacs", "Laundry", 19.97, 40);
+
+
