@@ -47,25 +47,35 @@ connection.query('SELECT item_id, product_name, price, stock_quantity, departmen
                 console.log("You are buying (" + user.quantity + ") " + results[idNum - 1].product_name
                     + ". \nYour total amount due is: $" + results[idNum - 1].price * user.quantity +
                     "\n------------------------------");
-                var newQuantity = results[idNum - 1].stock_quantity - user.quantity;
+                var newQuantity = parseInt(results[idNum - 1].stock_quantity) - parseInt(user.quantity);
                 substractFromDatabase(newQuantity, idNum);
-                // UPDATE programming_languages
-                // SET experience = 4
-                // WHERE id = 1;
             }
         });
     }
     questions();
-
-    substractFromDatabase = function (amazonQuantity, amazonID) {
-        var query = connection.query('UPDATE products SET stock_quantity =' + amazonQuantity + 'WHERE item_id =' + amazonID-1, function (error, results, fields) {
-        if (error) throw error;
-        // console.log(query);
-    });
-    };
 });
 
-// connection.end();
+function substractFromDatabase(amazonQuantity, amazonID) {
+    var query = connection.query('UPDATE products SET ? WHERE ?',
+        [
+            {
+                stock_quantity: amazonQuantity
+            },
+            {
+                item_id: amazonID - 1
+            }
+        ],
+        function (error, results) {
+            // if (error) throw error;
+            console.log(query.sql);
+            connection.end();
+        }
+    );
+};
+
+
+
+
 
 
 
