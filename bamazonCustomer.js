@@ -9,20 +9,20 @@ var connection = mysql.createConnection({
 });
 
 connection.connect();
-
 //starting connect and grabbing everything from products table in bamazon database
 connection.query('SELECT * FROM products', function (error, results, fields) {
     if (error) throw error;
+    //shows list of the ten items hard coded into mysql
     console.log("\n\nHere is a list of items available in store today!");
     for (i = 0; i < 10; i++) {
         console.log(
             "-----------------------------------\n" +
             "Product ID: " + results[i].item_id +
             "\nProduct: " + results[i].product_name +
-            "\nPrice: $" + results[i].price) +
-            "\n-----------------------------------";
+            "\nPrice: $" + results[i].price +
+            "\n-----------------------------------");
     }
-
+    //this function brings up inqurier 
     questions = function () {
 
         inquirer.prompt([
@@ -43,7 +43,8 @@ connection.query('SELECT * FROM products', function (error, results, fields) {
             console.log("Quantity desired: " + user.quantity);
             console.log("----------------------------------------");
             if (user.quantity > results[idNum - 1].stock_quantity) {
-                console.log("I am sorry, but we do not have enough of this item in stock.")
+                console.log("I am sorry, but we do not have enough of this item in stock.");
+
             } else {
                 console.log("You are buying (" + user.quantity + ") " + results[idNum - 1].product_name
                     + ". \nYour total amount due is: $" + results[idNum - 1].price * user.quantity +
@@ -63,11 +64,11 @@ function substractFromDatabase(amazonQuantity, amazonID) {
                 stock_quantity: amazonQuantity
             },
             {
-                item_id: amazonID - 1
+                item_id: amazonID
             }
         ],
         function (error, results) {
-            // if (error) throw error;
+            console.log(error);
             console.log(query.sql);
             connection.end();
         }
