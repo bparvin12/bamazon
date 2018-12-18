@@ -1,0 +1,53 @@
+var inquirer = require('inquirer');
+var mysql = require('mysql');
+var connection = mysql.createConnection({
+    host: 'localhost',
+    port: 8889,
+    user: 'root',
+    password: 'root',
+    database: 'bamazon_db'
+});
+
+connection.connect();
+
+connection.query('SELECT item_id, product_name, price, stock_quantity, department_name FROM products', function (error, results, fields) {
+    if (error) throw error;
+    console.log("\n\nHere is a list of items available in store today!");
+    for (i = 0; i < 10; i++) {
+        console.log(
+            "\n-----------------------------------\n" +
+            "Product ID: " + results[i].item_id +
+            "\nProduct: " + results[i].product_name +
+            "\nPrice: $" + results[i].price);
+    }
+
+questions = function () {
+
+    inquirer.prompt([
+        {
+            type: "input",
+            message: "Which item would you like to buy today (Use the Product ID Number)?",
+            name: "productid"
+        },
+        {
+            type: "input",
+            message: "How many units would you like to buy?",
+            name: "quantity"
+        },
+    ]).then(function (user) {
+        var idNum = user.productid
+        console.log("----------------------------------------");
+        console.log("Item in cart: " + results[idNum-1].product_name);
+        console.log("Quantity desired: " + user.quantity);
+        console.log("----------------------------------------");
+        if (user.quantity > results[idNum-1].stock_quantity) {
+            console.log("I am sorry, but we do not have enough of this item in stock.")
+        } else {
+            console.log("You are buying (" + user.quantity + ") " + results[idNum-1].product_name
+            + ". Your total amount due is: $" + results[idNum-1].price*user.quantity);
+        }
+    });
+}
+questions();
+});
+connection.end();
