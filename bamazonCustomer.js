@@ -54,7 +54,7 @@ questions = function () {
 
                 if (user.quantity > results[0].stock_quantity) {
                     console.log("I am sorry, but we do not have enough of this item in stock.");
-
+                    connection.end();
                 } else {
                     var newQuantity = parseInt(results[0].stock_quantity) - parseInt(user.quantity);
                     console.log("You are buying (" + user.quantity + ") " + results[0].product_name
