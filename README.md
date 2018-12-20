@@ -39,3 +39,23 @@ Looking back at the MySQl workbench, the quantity of Item 10 decreased by one ba
 Additionally, when an item runs out in the store the console prompts the user: 
 
 ![Out of Stock](images/outofstock.png)
+
+### Bamazon Manager 
+In the bamazonManager.js file, I used Inquirer and MySql node packages to update the bamazon database in MySQL. This application asked the user (a manager of the store) if they would like to do one of the following things. 
+  - View Products For Sale 
+  - View Low Inventory 
+  - Add to Inventory 
+  - Add New Product
+This selection was done usign the inquirer npm package. The user selects which his or her action would like to be, and that decision starts a specific function to complete the desried task. 
+
+##### View Products For Sale 
+Lists the entire products table from the bamazon database in the terminal (displayed in an object). 
+
+#### View Low Inventory
+Lists all the items in the products table that have a stock quantity of five or lower. 
+
+#### Add to Inventory 
+Allows the manager to add 10 more units of a desired item in their store. 
+
+#### Add New Product 
+An inquirer prompts the manager on what new item he or she would like to add to their database with the correspong price, quantity, an department. After the inquirer prompt is finished, the database is dynamically updated with the new item. 
